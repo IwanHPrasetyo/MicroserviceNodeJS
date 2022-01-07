@@ -11,7 +11,7 @@ export class Product{
     @Column()
     image: string;
 
-    @Column()
+    @Column({default:0})
     likes: number;
 
 
