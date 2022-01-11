@@ -69,7 +69,7 @@ typeorm_1.createConnection().then(function (db) {
                     return [4 /*yield*/, productRepository.save(products)];
                 case 2:
                     result = _a.sent();
-                    return [2 /*return*/, res.json(result)];
+                    return [2 /*return*/, res.send(result)];
             }
         });
     }); });
@@ -81,6 +81,47 @@ typeorm_1.createConnection().then(function (db) {
                 case 1:
                     products = _a.sent();
                     return [2 /*return*/, res.send(products)];
+            }
+        });
+    }); });
+    app.put('/api/products/:id', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var products, result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, productRepository.findOne(req.params.id)];
+                case 1:
+                    products = _a.sent();
+                    productRepository.merge(products, req.body);
+                    return [4 /*yield*/, productRepository.save(products)];
+                case 2:
+                    result = _a.sent();
+                    return [2 /*return*/, res.send(result)];
+            }
+        });
+    }); });
+    app.delete('/api/products/:id', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var results;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, productRepository.delete(req.params.id)];
+                case 1:
+                    results = _a.sent();
+                    return [2 /*return*/, res.send(results)];
+            }
+        });
+    }); });
+    app.post('/api/products/:id/like', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+        var products, result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, productRepository.findOne(req.params.id)];
+                case 1:
+                    products = _a.sent();
+                    products.likes++;
+                    return [4 /*yield*/, productRepository.save(products)];
+                case 2:
+                    result = _a.sent();
+                    return [2 /*return*/, res.send(result)];
             }
         });
     }); });

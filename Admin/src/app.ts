@@ -23,7 +23,7 @@ app.get('/api/products', async (req:Request, res:Response)=>{
 app.post('/api/products', async(req:Request, res:Response)=>{
     const products = await productRepository.create(req.body)
     const result = await productRepository.save(products)
-    return res.json(result)
+    return res.send(result)
 })
 
 app.get('/api/products/:id', async (req:Request, res:Response)=>{
@@ -31,7 +31,25 @@ app.get('/api/products/:id', async (req:Request, res:Response)=>{
     return res.send(products)
 })
 
-// app.put('')
+app.put('/api/products/:id', async (req: Request, res:Response)=>{
+    const products = await productRepository.findOne(req.params.id)
+    productRepository.merge(products, req.body)
+    const result = await productRepository.save(products)
+    return res.send(result)
+})
+
+app.delete('/api/products/:id',async (req:Request,res:Response)=>{
+    const results = await productRepository.delete(req.params.id)
+    return res.send(results)
+})
+
+app.post('/api/products/:id/like', async (req:Request, res: Response)=>{
+    const products = await productRepository.findOne(req.params.id)
+    products.likes++
+    const result = await productRepository.save(products)
+    return res.send(result)
+
+})
 
 
 console.log(`Listening to port 8000`)
